@@ -4,10 +4,7 @@ Projeto TechMan desenvolvido para cadastro, exclusão e atualização de equipam
 
 ## Wireframes e Diagramas
 
-![MerDer](./DOCS/DER.drawio.png)
-![DATV CLIENTE](./DOCS/DATVCLIENTE.drawio.png)
-![DATV ADMIN](./DOCS/DATVADMIN.drawio.png)
-
+![MerDer](./DOCS/MerDer.drawio.png)
 
 Principais telas 
 
