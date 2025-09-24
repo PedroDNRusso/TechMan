@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+    // === BOTÃO LOGOUT ===
     const topbar = document.querySelector(".topbar");
     const btnLogout = document.createElement("button");
     btnLogout.innerHTML = `<i class="fas fa-sign-out-alt"></i> Logout`;
@@ -16,8 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     topbar.appendChild(btnLogout);
 
+    // === PERMISSÕES: ADMIN PODE VER O BOTÃO NOVO ===
     const btnNovo = document.querySelector(".novo-equip");
-    if (usuario.tipo !== "ADMIN") { 
+    if (usuario.perfilId !== 2) { 
         btnNovo.style.display = "none";
     }
 
@@ -46,7 +48,7 @@ async function carregarEquipamentos(usuario) {
                         <button title="Comentários" onclick="abrirComentarios(${item.id}, '${item.equipamento}')">
                             <i class="fas fa-comments"></i>
                         </button>
-                        ${usuario.tipo === "ADMIN" ? `
+                        ${usuario.perfilId === 2 ? `
                             <button title="Excluir" onclick="deletarEquipamento(${item.id})">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
@@ -63,12 +65,6 @@ async function carregarEquipamentos(usuario) {
 }
 
 async function deletarEquipamento(id) {
-    const usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
-    if (usuario.tipo !== "ADMIN") {
-        alert("Apenas administradores podem excluir equipamentos!");
-        return;
-    }
-
     try {
         if (!confirm("Deseja realmente excluir este equipamento?")) return;
 
@@ -78,7 +74,7 @@ async function deletarEquipamento(id) {
 
         if (response.status === 204) {
             alert("Equipamento deletado com sucesso!");
-            carregarEquipamentos(usuario);
+            carregarEquipamentos(JSON.parse(sessionStorage.getItem("usuarioLogado")));
         } else {
             alert("Erro ao deletar equipamento!");
         }
@@ -93,45 +89,52 @@ function configurarModal(usuario) {
     const spanClose = document.querySelector(".close");
     const formEquip = document.getElementById("form-equipamento");
 
-    if (usuario.tipo === "ADMIN") {
+    // Só admin abre modal
+    if (usuario.perfilId === 2) {
         btnNovo.addEventListener("click", (e) => {
             e.preventDefault();
             modal.style.display = "block";
-        });
-
-        formEquip.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const formData = new FormData(formEquip);
-            const dados = {
-                equipamento: formData.get("equipamento"),
-                imagem: formData.get("imagem"), 
-                descricao: formData.get("descricao")
-            };
-
-            try {
-                const response = await fetch("http://localhost:3000/equipamentos", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(dados)
-                });
-
-                if (response.status === 201) {
-                    alert("Equipamento cadastrado com sucesso!");
-                    modal.style.display = "none";
-                    formEquip.reset();
-                    carregarEquipamentos(usuario);
-                } else {
-                    alert("Erro ao cadastrar equipamento!");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Erro ao conectar com o servidor!");
-            }
         });
     }
 
     spanClose.addEventListener("click", () => modal.style.display = "none");
     window.addEventListener("click", (e) => { if(e.target === modal) modal.style.display = "none"; });
+
+    // Só admin cadastra
+    formEquip.addEventListener("submit", async (e) => {
+        if (usuario.perfilId !== 2) {
+            alert("Apenas administradores podem cadastrar equipamentos!");
+            return;
+        }
+
+        e.preventDefault();
+        const formData = new FormData(formEquip);
+        const dados = {
+            equipamento: formData.get("equipamento"),
+            imagem: formData.get("imagem"), 
+            descricao: formData.get("descricao")
+        };
+
+        try {
+            const response = await fetch("http://localhost:3000/equipamentos", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            });
+
+            if (response.status === 201) {
+                alert("Equipamento cadastrado com sucesso!");
+                modal.style.display = "none";
+                formEquip.reset();
+                carregarEquipamentos(usuario);
+            } else {
+                alert("Erro ao cadastrar equipamento!");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao conectar com o servidor!");
+        }
+    });
 }
 
 async function abrirComentarios(equipamentoId, equipamentoNome) {
@@ -155,7 +158,7 @@ async function abrirComentarios(equipamentoId, equipamentoNome) {
     spanClose.addEventListener("click", () => modalComentarios.remove());
     window.addEventListener("click", (e) => { if(e.target === modalComentarios) modalComentarios.remove(); });
 
-    const listaComentarios = modalComentarios.querySelector("#lista-comentarios");
+    const listaComentarios = document.getElementById("lista-comentarios");
     const formComentario = modalComentarios.querySelector("#form-comentario");
     const usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
 
