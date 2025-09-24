@@ -41,6 +41,7 @@ const login = async (req, res) => {
         res.status(200).json({
             id: usuario.id,
             senha: usuario.senha,
+            perfilId: usuario.perfilId, // <- adicionado
             message: "Login bem-sucedido"
         });
 
