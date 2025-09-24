@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/DOCS/TechMan.png"/>
+  <title>TechMan - Equipamentos</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">
+        <img src="/DOCS/techmanlogo.png" alt="TechMan" style="height: 50px;">
+    </div>
+    <div class="top-actions">
+      <a href="#" class="novo-equip">Novo equipamento</a>
+    </div>
+  </header>
+
+  <main id="lista-equipamentos" class="lista">
+    <!-- Os cards serão injetados via JS -->
+  </main>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Novo Equipamento</h2>
+      <form id="form-equipamento">
+        <label for="equipamento">Nome do equipamento:</label>
+        <input type="text" id="equipamento" name="equipamento" required>
+
+        <label for="imagem">Imagem (URL ou nome do arquivo):</label>
+        <input type="text" id="imagem" name="imagem" required>
+
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" rows="4" required></textarea>
+
+        <button type="submit">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
