@@ -12,7 +12,8 @@ Projeto TechMan desenvolvido para cadastro, exclusão e atualização de equipam
 Principais telas 
 
 ![Wireframe01](./DOCS/wireframes/Wireframe01.png)
-![Wireframe01](./DOCS/wireframes/Wireframe02.png)
+![Wireframe02](./DOCS/wireframes/Wireframe02.png)
+![Wireframe03](./DOCS/wireframes/Wireframe03.png)
 
 
 ## Como testar 
