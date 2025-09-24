@@ -1,14 +1,4 @@
-    /* ===== PALETA =====
-    Branco:      #ffffff
-    Off White:   #eeedeb
-    Cinza Claro: #cce2e2
-    Cinza Médio: #b3b3b3
-    Turquesa:    #44babc
-    Verde Azulado: #35797d
-    Preto:       #000000
-    ==================== */
-
-    * {
+   * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;

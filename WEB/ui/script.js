@@ -6,11 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Botão de logout estilizado
     const topbar = document.querySelector(".topbar");
     const btnLogout = document.createElement("button");
     btnLogout.innerHTML = `<i class="fas fa-sign-out-alt"></i> Logout`;
-    btnLogout.classList.add("logout-btn"); // estilize via CSS
+    btnLogout.classList.add("logout-btn"); 
     btnLogout.onclick = () => {
         sessionStorage.removeItem("usuarioLogado");
         window.location.href = "../login/index.html";
@@ -75,7 +74,6 @@ async function deletarEquipamento(id) {
     }
 }
 
-// MODAL DE EQUIPAMENTOS
 function configurarModal() {
     const modal = document.getElementById("modal");
     const btnNovo = document.querySelector(".novo-equip");
@@ -121,9 +119,7 @@ function configurarModal() {
     });
 }
 
-// MODAL DE COMENTÁRIOS
 async function abrirComentarios(equipamentoId, equipamentoNome) {
-    // Criar modal de comentários dinamicamente
     const modalComentarios = document.createElement("div");
     modalComentarios.classList.add("modal");
     modalComentarios.style.display = "block";
@@ -148,7 +144,6 @@ async function abrirComentarios(equipamentoId, equipamentoNome) {
     const formComentario = modalComentarios.querySelector("#form-comentario");
     const usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
 
-    // Carregar comentários
     async function carregarComentarios() {
         try {
             const response = await fetch(`http://localhost:3000/comentarios?equipamentoId=${equipamentoId}`);
@@ -168,7 +163,6 @@ async function abrirComentarios(equipamentoId, equipamentoNome) {
 
     await carregarComentarios();
 
-    // Enviar novo comentário
     formComentario.addEventListener("submit", async (e) => {
         e.preventDefault();
         const formData = new FormData(formComentario);

@@ -34,9 +34,7 @@ async function login() {
         const data = await response.json();
 
         if (response.status === 200) {
-            // Armazena o usuário logado
             sessionStorage.setItem('usuarioLogado', JSON.stringify(data));
-            // Redireciona para a página de equipamentos
             window.location.href = '../ui/index.html';
         } else {
             alert(data.message || 'Senha incorreta!');
